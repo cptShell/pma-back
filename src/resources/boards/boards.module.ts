@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PassportModule } from '@nestjs/passport';
 
 import { AuthModule } from '../auth/auth.module';
 
@@ -10,7 +11,13 @@ import { BoardsController } from './boards.controller';
 @Module({
   providers: [BoardsService],
   controllers: [BoardsController],
-  imports: [AuthModule, TypeOrmModule.forFeature([Board])],
+  imports: [
+    AuthModule,
+    TypeOrmModule.forFeature([Board]),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
+  ],
   exports: [BoardsService],
 })
 export class BoardsModule {}

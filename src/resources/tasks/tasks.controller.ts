@@ -11,6 +11,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 
 import { CreateTaskDto } from './dto/create-tasks.dto';
@@ -22,12 +23,10 @@ import { ITask, Task } from './tasks.entity';
 import TaskCreate from './schema/controller.create';
 import TaskUpdate from './schema/controller.update';
 
-import { AuthGuard } from '../auth/jwt-auth.guard';
-
 @ApiTags('Tasks')
 @ApiBearerAuth('token')
 @Controller('/boards/:boardId/columns/:columnId/tasks/')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard())
 export class TasksController {
   constructor(private readonly taskService: TasksService) {}
 

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PassportModule } from '@nestjs/passport';
 
 import { AuthModule } from '../auth/auth.module';
 
@@ -10,7 +11,13 @@ import { FileService } from './files.service';
 @Module({
   controllers: [FileController],
   providers: [FileService],
-  imports: [AuthModule, TypeOrmModule.forFeature([File])],
+  imports: [
+    AuthModule,
+    TypeOrmModule.forFeature([File]),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
+  ],
   exports: [FileService],
 })
 export class FileModule {}

@@ -7,13 +7,12 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 import { UsersService } from './users.service';
@@ -21,12 +20,10 @@ import { IUserNoId, User } from './users.entity';
 
 import status404 from './schema/controller.404';
 
-import { AuthGuard } from '../auth/jwt-auth.guard';
-
 @ApiTags('Users')
 @ApiBearerAuth('token')
 @Controller('users')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard())
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

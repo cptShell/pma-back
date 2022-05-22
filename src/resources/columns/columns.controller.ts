@@ -11,6 +11,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
 import getOne from './schema/controller.getOne';
@@ -24,12 +25,10 @@ import { IColumn, Column } from './columns.entity';
 import boards404 from '../boards/schema/controller.404';
 import columns404 from './schema/controller.404';
 
-import { AuthGuard } from '../auth/jwt-auth.guard';
-
 @ApiTags('Columns')
 @ApiBearerAuth('token')
 @Controller('/boards/:boardId/columns')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard())
 export class ColumnsController {
   constructor(private readonly columnService: ColumnsService) {}
 

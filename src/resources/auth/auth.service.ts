@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import jwt = require('jsonwebtoken');
 import bcrypt = require('bcryptjs');
+import { JWTPayloadDto } from './dto/jwt-payload.dto';
 
 import { User } from '../users/users.entity';
 import { SigninUserDto } from './dto/signin-user.dto';
@@ -22,7 +23,12 @@ export class AuthService {
       throw new HttpException('User was not founded!', HttpStatus.FORBIDDEN);
     }
 
-    const token = jwt.sign({ userId: user.id, login: body.login }, process.env.JWT_SECRET_KEY as string);
+    const payload: JWTPayloadDto = {
+      userId: user.id,
+      login: body.login,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY as string);
 
     return { token };
   }
